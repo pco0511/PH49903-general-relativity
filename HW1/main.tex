@@ -1,0 +1,232 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm, tikz,titlesec,hyperref,esint,braket, graphicx, mathrsfs, enumitem}
+\usepackage[a4paper,margin=2cm]{geometry}
+\linespread{1.3}
+\newtheorem{claim}{Claim}[section]
+
+\newcommand\name{Park Chanwoo}   % Name of the student
+\newcommand\university{KAIST} % Name of the university
+\newcommand\department{Physics} % Name of the department
+\newcommand\studentid{20230297} % Student ID
+\newcommand\s{\,\;}
+
+
+\newenvironment{solution}[1]
+  {\renewcommand\qedsymbol{$\square$}\begin{proof}[\textbf{Solution#1}]}
+  {\end{proof}}
+\newenvironment{note}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[\textnormal{\textbf{note}}]}
+  {\end{proof}}
+
+\title{KAIST\\2026 General Relativity\\
+Homework 1\bigskip}
+\author{\textbf{\Large \name} \\
+% University: \university\\
+Department: \department\\
+Student ID: \studentid}
+\date{\today}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+\tableofcontents
+\titleformat{\section}[frame]{\pagebreak}{\filright
+\footnotesize  \enspace \textsf{KAIST --- General Relativity 2026 Fall}\enspace}{6pt}{\Large\bfseries\filcenter}
+\setcounter{secnumdepth}{1}
+\setcounter{tocdepth}{2}
+
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\supp}{\operatorname{supp}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\boltz}{k_{\mathrm{B}}}
+
+\section{\#1}
+
+The matrix representation of the Lorentz boost between two frames $S$ and $S'$ is
+\begin{equation}
+    \Lambda^\mu{}_\nu = \begin{pmatrix}
+        \gamma & 0 & -\gamma v & 0 \\
+        0 & 1 & 0 & 0 \\
+        -\gamma v & 0 & \gamma & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}, \qquad x'^\mu = \Lambda^\mu{}_\nu x^\nu
+\end{equation}
+
+Consider a ball moving with constant velocity $(v_x, v_y)$ in the frame $S$. The four-velocity of the ball in $S$ is
+\begin{equation}
+    u^\mu = \tilde{\gamma}(1, v_x, v_y, 0), \qquad \tilde{\gamma} = \frac{1}{\sqrt{1 - v_x^2 - v_y^2}}
+\end{equation}
+
+In the frame $S'$,
+\begin{equation}
+    u'^\mu = \Lambda^\mu{}_\nu u^\nu = \tilde{\gamma}(\gamma - \gamma vv_y, v_x, -\gamma v + \gamma v_y, 0)
+\end{equation}
+
+Since the wall $x'=-y'$ rest in the frame $S'$, hitting the wall reverses and swaps the $x'$ and $y'$ components of the four-velocity:
+\begin{equation}
+    u'^\mu_{\text{after}} = \tilde{\gamma}(\gamma - \gamma vv_y, \gamma v - \gamma v_y, -v_x, 0)
+\end{equation}
+transforming it back to the frame $S$ gives
+\begin{equation}
+    u^\mu_{\text{after}} = (\Lambda^{-1})^\mu_\nu u'^\nu_{\text{after}} = \tilde{\gamma}\gamma(\gamma(1-vv_y) - vv_x, v - v_y, \gamma v(1-vv_y) - v_x, 0)
+\end{equation}
+The worldlines before and after the collision upto translation are
+\begin{equation}
+    \text{before: } x^\mu(\tau) = \tilde{\gamma}\tau(1, v_x, v_y, 0), \qquad
+    \text{after: } x^\mu(\tau) = \tilde{\gamma}\gamma\tau(\gamma(1-vv_y) - vv_x, v - v_y, \gamma v(1-vv_y) - v_x, 0)
+\end{equation}
+
+and the 3-velocities before and after the collision are
+\begin{equation}
+    \text{before: } \vec{v} = (v_x, v_y, 0), \qquad
+    \text{after: } \vec{v} = \left(\frac{v - v_y}{\gamma(1-vv_y) - vv_x}, \frac{\gamma v(1-vv_y)-v_x}{\gamma(1-vv_y) - vv_x}, 0\right)
+\end{equation}
+
+
+To calculate the angles in $S$, transform the world volume of the wall $x'=-y'$ to the frame $S$:
+\begin{equation}
+    x = -\gamma y + \gamma vt
+\end{equation}
+
+Hence, a pair of unit tangent and unit normal vector to the wall in the frame $S$ is
+\begin{equation}
+    \vec{t} = \frac{1}{\sqrt{1 + \gamma^2}}(\gamma, -1, 0), \qquad \vec{n} = \frac{1}{\sqrt{1 + \gamma^2}}(1, \gamma, 0)
+\end{equation}
+
+Let $\theta_{\mathrm{in}}$ be the incident angle and $\theta_{\mathrm{out}}$ be the reflected angle defined by
+\begin{align}
+    \vec{t}\cdot\vec{v}_{\mathrm{in}} &= |\vec{v}_{\mathrm{in}}|\sin\theta_{\mathrm{in}} &
+    \vec{t}\cdot\vec{v}_{\mathrm{out}} &= |\vec{v}_{\mathrm{out}}|\sin\theta_{\mathrm{out}} \\
+    -\vec{n}\cdot\vec{v}_{\mathrm{in}} &= |\vec{v}_{\mathrm{in}}|\cos\theta_{\mathrm{in}} &
+    \vec{n}\cdot\vec{v}_{\mathrm{out}} &= |\vec{v}_{\mathrm{out}}|\cos\theta_{\mathrm{out}}
+\end{align}
+the choice of the signs on the left-hand-sides and the tangent and normal vector only changes $\{\theta_{*}, \pi-\theta_{*}\}$.
+
+By direct calculation, we have
+\begin{equation}
+    \gamma v_x - v_y = \sqrt{1 + \gamma^2}|\vec{v}_{\mathrm{in}}|\sin\theta_{\mathrm{in}}, \qquad v_x + \gamma v_y = -\sqrt{1 + \gamma^2}|\vec{v}_{\mathrm{in}}|\cos\theta_{\mathrm{in}} \label{eq:incident_angles}
+\end{equation}
+
+and for the reflected velocity:
+\begin{equation}
+    \gamma(v - v_y) - \gamma v(1 - vv_y) + v_x = C\sin\theta_{\mathrm{out}}, \qquad
+    v-v_y + \gamma^2 v(1 - vv_y)-\gamma v_x = C\cos\theta_{\mathrm{out}}
+\end{equation}
+Where $C=(\gamma(1-vv_y)-vv_x)\sqrt{1 + \gamma^2}|\vec{v}_{\mathrm{out}}|$
+
+This can be simplyfied to
+\begin{equation}
+    v_x - \frac{v_y}{\gamma} = C\sin\theta_{\mathrm{out}}, \qquad
+    v(1 + \gamma^2)-\gamma (v_x+\gamma v_y) = C\cos\theta_{\mathrm{out}}
+\end{equation}
+
+Using (\ref{eq:incident_angles}) and $1 +\gamma^2 = (2-v^2)/(1 - v^2)=\gamma^2(2-v^2)$, we have
+\begin{equation}
+    \tan\theta_{\mathrm{out}} = \frac{\gamma v_x - v_y}{\gamma v (1 + \gamma^2) -\gamma^2(v_x + \gamma v_y)} = \frac{(1-v^2)|v_{\mathrm{in}}|\sin\theta_{\mathrm{in}}}{v\sqrt{2 - v^2}+|v_{\mathrm{in}}|\cos\theta_{\mathrm{in}}}
+\end{equation}
+
+
+
+
+
+
+
+ 
+\section{\#2}
+
+Let $U=\mathbb{R}^2\setminus\{0\}$ and define a map $\Phi:\mathbb{R}\times S^1\to U$ by
+\begin{equation}
+    \Phi:(t, \vec{x})\mapsto e^t\vec{x}
+\end{equation}
+Where $\vec{x}\in\{(x, y)\in\mathbb{R}^2:\ x^2+y^2=1\}\cong S^1$.
+
+This map has the obvious inverse $\Phi^{-1}:U\to\mathbb{R}\times S^1$ given by
+\begin{equation}
+    \Phi^{-1}:(x, y)\mapsto\left(\ln\sqrt{x^2+y^2}, \frac{(x, y)}{\sqrt{x^2+y^2}}\right)
+\end{equation}
+
+and both $\Phi$ and $\Phi^{-1}$ are continuous. Hence, $\Phi$ is a homeomorphism and a single global chart of $\mathbb{R}\times S^1$.
+
+
+\section{\#3}
+
+Let $\mathcal{M}$ be a smooth manifold and $X, Y\in\mathfrak{X}(\mathcal{M})$ be smooth vector fields as a smooth assignment of derivations. Let $f, g\in C^\infty(\mathcal{M})$ be smooth functions and $a, b\in\mathbb{R}$ be real numbers. 
+
+
+\subsection{Linearity}
+
+\begin{align}
+    [X, Y](af + bg) &= XY(af + bg) - YX(af + bg) \\
+    &= aXY(f) + bXY(g) - aYX(f) - bYX(g) \\
+    &= a[X, Y](f) + b[X, Y](g)
+\end{align}
+
+\subsection{Leibniz Rule}
+
+For any $f, g\in C^\infty(\mathcal{M})$, 
+\begin{align}
+    [X, Y](fg) &= XY(fg) - YX(fg) \\
+    &= X(fY(g) + gY(f)) - Y(fX(g) + gX(f)) \\
+    &= fXY(g) + gXY(f) + X(f)Y(g) + X(g)Y(f) \\
+    &\quad - fYX(g) - gYX(f) - Y(f)X(g) - Y(g)X(f) \\
+    &= f(XY(g) - YX(g)) + g(XY(f) - YX(f)) \\
+    &\quad + (X(f)Y(g) - Y(f)X(g)) + (X(g)Y(f) - Y(g)X(f)) \\
+    &= f[X, Y](g) + g[X, Y](f)
+\end{align}
+
+\subsection{Coordinate Expression}
+Take a local chart $(U, \phi)$ of $\mathcal{M}$ with coordinates $(x^1, \dots, x^n)$. Then, we can write
+\begin{equation}
+    X = X^i\partial_{i}, \qquad Y = Y^j\partial_{j}
+\end{equation}
+where $X^i, Y^j\in C^\infty(U)$ are smooth.
+\begin{align}
+    [X, Y]f &= XY(f) - YX(f) \\
+    &= X^i\partial_{i}(Y^j\partial_{j}f) - Y^j\partial_{j}(X^i\partial_{i}f) \\
+    &= X^i(\partial_{i}Y^j)\partial_{j}f + X^iY^j\partial_{i}\partial_{j}f - Y^j(\partial_{j}X^i)\partial_{i}f - Y^jX^i\partial_{j}\partial_{i}f \\
+    &= (X^i\partial_{i}Y^j - Y^i\partial_{i}X^j)\partial_{j}f
+\end{align}
+Hence,
+\begin{equation}
+    [X, Y]^j = X^i\partial_{i}Y^j - Y^i\partial_{i}X^j
+\end{equation}
+
+By the linearlity and Leibniz rule, the Lie bracket is a derivation of $C^\infty(\mathcal{M})$ which is canonically isomorphic to $\mathfrak{X}(\mathcal{M})$. Hence the transformation law of the components of the Lie bracket is the same as that of a vector field:
+\begin{equation}
+    \widetilde{[X, Y]}^j = \frac{\partial \tilde{x}^j}{\partial x^i}[X, Y]^i
+\end{equation}
+
+
+
+\section{\#4}
+
+\subsection{(a)}
+
+In spherical coordinates, the given helix is
+\begin{equation}
+    r(\lambda)=\sqrt{1 + \lambda^2}, \quad \theta(\lambda)=\cot^{-1}\lambda, \quad \phi(\lambda)=\lambda
+\end{equation}
+where $\cot^{-1}:\mathbb{R}\to(0,\pi)$ is a branch.
+
+
+\subsection{(b)}
+
+
+Cartesian coordinates:
+
+\begin{equation}
+    \frac{\partial}{\partial\lambda} = \frac{\partial x}{\partial\lambda}\frac{\partial}{\partial x} + \frac{\partial y}{\partial\lambda}\frac{\partial}{\partial y} + \frac{\partial z}{\partial\lambda}\frac{\partial}{\partial z} = -\sin\lambda\frac{\partial}{\partial x} + \cos\lambda\frac{\partial}{\partial y} + \frac{\partial}{\partial z}
+\end{equation}
+
+
+Spherical coordinates:
+
+\begin{equation}
+    \frac{\partial}{\partial\lambda} = \frac{dr}{d\lambda}\frac{\partial}{\partial r} + \frac{d\theta}{d\lambda}\frac{\partial}{\partial \theta} + \frac{d\phi}{d\lambda}\frac{\partial}{\partial \phi} = \frac{\lambda}{\sqrt{1+\lambda^2}}\frac{\partial}{\partial r} - \frac{1}{1+\lambda^2}\frac{\partial}{\partial \theta} + \frac{\partial}{\partial \phi}
+\end{equation}
+
+
+
+\end{document}

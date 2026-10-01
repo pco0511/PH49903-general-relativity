@@ -1,0 +1,485 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm, tikz,titlesec,hyperref,esint,braket, graphicx, mathrsfs, enumitem}
+\usepackage[a4paper,margin=2cm]{geometry}
+\linespread{1.3}
+\newtheorem{claim}{Claim}[section]
+
+\newcommand\name{Park Chanwoo}   % Name of the student
+\newcommand\university{KAIST} % Name of the university
+\newcommand\department{Physics} % Name of the department
+\newcommand\studentid{20230297} % Student ID
+\newcommand\s{\,\;}
+
+
+\newenvironment{solution}[1]
+  {\renewcommand\qedsymbol{$\square$}\begin{proof}[\textbf{Solution#1}]}
+  {\end{proof}}
+\newenvironment{note}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[\textnormal{\textbf{note}}]}
+  {\end{proof}}
+
+\title{KAIST\\2026 General Relativity\\
+Homework 2\bigskip}
+\author{\textbf{\Large \name} \\
+% University: \university\\
+Department: \department\\
+Student ID: \studentid}
+\date{\today}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+\tableofcontents
+\titleformat{\section}[frame]{\pagebreak}{\filright
+\footnotesize  \enspace \textsf{KAIST --- General Relativity 2026 Fall}\enspace}{6pt}{\Large\bfseries\filcenter}
+\setcounter{secnumdepth}{1}
+\setcounter{tocdepth}{2}
+
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\id}{\operatorname{id}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\boltz}{k_{\mathrm{B}}}
+
+\section{\#1}
+
+The field strength tensor of $\mathbf{E}=(E_x, E_y, E_z), \mathbf{B}=(B_x, B_y, B_z)$ is
+\begin{equation}
+    F_{\mu\nu} = \begin{pmatrix}
+        0 & -E_x & -E_y & -E_z \\
+        E_x & 0 & B_z & -B_y \\
+        E_y & -B_z & 0 & B_x \\
+        E_z & B_y & -B_x & 0
+    \end{pmatrix}
+\end{equation}
+
+
+\subsection{(a)} Transformation to a frame rotated by $\theta$ about the $y$-axis is given by
+\begin{equation}
+    \Lambda^\mu{}_\nu =
+    \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & \cos\theta & 0 & -\sin\theta \\
+        0 & 0 & 1 & 0 \\
+        0 & \sin\theta & 0 & \cos\theta
+    \end{pmatrix}
+\end{equation}
+The field strength tensor in the rotated frame is given by
+\begin{equation}
+    F'_{\mu\nu} = \Lambda_\mu{}^\alpha \Lambda_\nu{}^\beta F_{\alpha\beta} \label{eq:1a1}
+\end{equation}
+
+This can be expressed by matrix multiplication as
+\begin{gather}
+    \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & \cos\theta & 0 & -\sin\theta \\
+        0 & 0 & 1 & 0 \\
+        0 & \sin\theta & 0 & \cos\theta
+    \end{pmatrix}
+    \begin{pmatrix}
+        0 & -E_x & -E_y & -E_z \\
+        E_x & 0 & B_z & -B_y \\
+        E_y & -B_z & 0 & B_x \\
+        E_z & B_y & -B_x & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        1 & 0 & 0 & 0 \\
+        0 & \cos\theta & 0 & \sin\theta \\
+        0 & 0 & 1 & 0 \\
+        0 & -\sin\theta & 0 & \cos\theta
+    \end{pmatrix}\notag\\
+    =\begin{pmatrix}
+        0 & -E_x\cos\theta + E_z\sin\theta & -E_y & -E_z\cos\theta - E_x\sin\theta \\
+        E_x\cos\theta - E_z\sin\theta & 0 & B_z\cos\theta+B_x\sin\theta & -B_y \\
+        E_y & -B_z\cos\theta-B_x\sin\theta & 0 & B_x\cos\theta-B_z\sin\theta \\
+        E_z\cos\theta + E_x\sin\theta & B_y & -B_x\cos\theta+B_z\sin\theta & 0
+    \end{pmatrix} \label{eq:1a2}
+\end{gather}
+
+
+Hence, the transformed electric and magnetic fields are
+\begin{align}
+    \mathbf{E}' &= (E_x\cos\theta - E_z\sin\theta, E_y, E_z\cos\theta + E_x\sin\theta), \\
+    \mathbf{B}' &= (B_x\cos\theta - B_z\sin\theta, B_y, B_z\cos\theta + B_x\sin\theta)
+\end{align}
+
+\subsection{(b)} Transformation to a frame boosted by $\beta$ along the $z$-axis is given by
+\begin{equation}
+    \Lambda^\mu{}_\nu =
+    \begin{pmatrix}
+        \gamma & 0 & 0 & -\beta\gamma \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        -\beta\gamma & 0 & 0 & \gamma
+    \end{pmatrix}
+\end{equation}
+
+As same as (\ref{eq:1a1}, \ref{eq:1a2}), 
+
+\begin{gather}
+    \begin{pmatrix}
+        \gamma & 0 & 0 & \beta\gamma \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        \beta\gamma & 0 & 0 & \gamma
+    \end{pmatrix}
+    \begin{pmatrix}
+        0 & -E_x & -E_y & -E_z \\
+        E_x & 0 & B_z & -B_y \\
+        E_y & -B_z & 0 & B_x \\
+        E_z & B_y & -B_x & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        \gamma & 0 & 0 & \beta\gamma \\
+        0 & 1 & 0 & 0 \\
+        0 & 0 & 1 & 0 \\
+        \beta\gamma & 0 & 0 & \gamma
+    \end{pmatrix}\notag\\
+    =\begin{pmatrix}
+        0 & -\gamma E_x+\beta\gamma B_y & -\gamma E_y-\beta\gamma B_x & -E_z \\
+        \gamma E_x - \beta\gamma B_y & 0 & B_z & -\gamma B_y+\beta\gamma E_x \\
+        \gamma E_y + \beta\gamma B_x& -B_z & 0 & \gamma B_x+\beta\gamma E_y \\
+        E_z& \gamma B_y - \beta\gamma E_x & -\gamma B_x-\beta\gamma E_y & 0
+    \end{pmatrix}
+\end{gather}
+
+Hence, the transformed electric and magnetic fields are
+\begin{align}
+    \mathbf{E}' &= (\gamma E_x - \beta\gamma B_y, \gamma E_y + \beta\gamma B_x, E_z), \\
+    \mathbf{B}' &= (\gamma B_x + \beta\gamma E_y, \gamma B_y - \beta\gamma E_x, B_z)
+\end{align}
+
+
+\section{\#2}
+
+
+Energy-momentum tensor is Noether current associated with spacetime translation symmetry. 
+\begin{equation}
+    T^{\mu\nu} = -\frac{\partial \mathcal{L}}{\partial(\partial_\mu \phi_\alpha)}\partial^\nu \phi_\alpha + \eta^{\mu\nu}\mathcal{L}
+\end{equation}
+
+\subsection{(a)}
+
+For the source-free Maxwell's electromagnetism, $\mathcal{L} = -\frac{1}{4}F_{\mu\nu}F^{\mu\nu}$, and $\phi_\alpha = A_\alpha$. Hence, we have
+\begin{align}
+    -\frac{\partial \mathcal{L}}{\partial(\partial_\mu A_\alpha)}\partial^\nu A_\alpha + \eta^{\mu\nu}\mathcal{L} &= F^{\mu\alpha}\partial^\nu A_\alpha + \eta^{\mu\nu}\mathcal{L} \\
+    &= F^{\mu\alpha}(\partial^\nu A_\alpha - \partial_\alpha A^\nu) + F^{\mu\alpha}\partial_\alpha A^\nu + \eta^{\mu\nu}\mathcal{L} \\
+    &= F^{\mu\alpha}F^\nu{}_\alpha -\frac{1}{4}\eta^{\mu\nu}F_{\alpha\beta}F^{\alpha\beta} + F^{\mu\alpha}\partial_\alpha A^\nu
+\end{align}
+
+Using the equation of motion $\partial_\alpha F^{\mu\alpha} = 0$, The last term is
+\begin{equation}
+    F^{\mu\alpha}\partial_\alpha A^\nu = \partial_\alpha(F^{\mu\alpha}A^\nu) - (\partial_\alpha F^{\mu\alpha})A^\nu = \partial_\alpha(F^{\mu\alpha}A^\nu)
+\end{equation}
+
+And this term is conserved standing alone, 
+\begin{gather}
+    \partial_\mu \partial_\alpha(F^{\mu\alpha}A^\nu) = -\partial_\alpha\partial_\mu(F^\alpha{}^\mu A^\nu) = -\partial_\mu \partial_\alpha(F^{\mu\alpha}A^\nu) \\
+    \implies \partial_\mu \partial_\alpha(F^{\mu\alpha}A^\nu) = 0
+\end{gather}
+
+Hence, we get the symmetric and gauge-invariant energy-momentum tensor for Maxwell's electromagnetism as
+\begin{equation}
+    T^{\mu\nu} = F^{\mu\alpha}F^\nu{}_\alpha - \frac{1}{4}\eta^{\mu\nu}F_{\alpha\beta}F^{\alpha\beta}
+\end{equation}
+
+To express it in terms of $\mathbf{E}$ and $\mathbf{B}$, separate the time component and space block. The time component is
+\begin{align}
+    T^{00} &= F^{0\alpha}F^0{}_\alpha - \frac{1}{4}\eta^{00}F_{\alpha\beta}F^{\alpha\beta}\\
+    &= E_x^2 + E_y^2 + E_z^2 + \frac{1}{4}(2B_x^2 + 2B_y^2 + 2B_z^2 - 2E_x^2 - 2E_y^2 - 2E_z^2)\\
+    &= \frac{1}{2}(\mathbf{E}^2 + \mathbf{B}^2)
+\end{align}
+
+For the space block, use the expression $F^{ij} = \varepsilon^{ijk}B_k$.
+\begin{align}
+    T^{ij} &= F^{i0}F^j{}_0 + F^{ik}F^{j}{}_{k} - \frac{1}{4}\eta^{ij}F_{\alpha\beta}F^{\alpha\beta} \\
+    &= -E_iE_j + \varepsilon^{ikl}\varepsilon^{jkm}B_lB_m - \frac{1}{2}\delta_{ij}(\mathbf{B}^2 - \mathbf{E}^2) \\
+    &= -E_iE_j + (\delta_{ij}\delta_{lm} - \delta_{im}\delta_{jl})B_lB_m - \frac{1}{2}\delta_{ij}(\mathbf{B}^2 - \mathbf{E}^2) \\
+    &= -E_iE_j - B_iB_j + \frac{1}{2}\delta_{ij}(\mathbf{E}^2 + \mathbf{B}^2)
+\end{align}
+
+For the mixed component is
+\begin{align}
+    T^{j0} &= F^{j\alpha}F^0{}_\alpha - \frac{1}{4}\eta^{j0}F_{\alpha\beta}F^{\alpha\beta} \\
+    &= F^{jk}F^{0}{}_{k} = \varepsilon^{jkl}B_lE_k \\
+    &= (\mathbf{E}\times\mathbf{B})_j
+\end{align}
+($F^0{}_0=0$, $\eta^{j0}=0$, and $F^{0k}=+E_k$ are used.)
+
+Therefore,
+\begin{equation}
+    T^{\mu\nu}=\begin{pmatrix}
+        \frac{1}{2}(\mathbf{E}^2 + \mathbf{B}^2) & (\mathbf{E}\times\mathbf{B})^\top \\
+        \mathbf{E}\times\mathbf{B} & -\mathbf{E}\mathbf{E}^\top - \mathbf{B}\mathbf{B}^\top + \frac{1}{2}(\mathbf{E}^2 + \mathbf{B}^2)I
+    \end{pmatrix}
+\end{equation}
+
+
+For the scalar field theory, $\mathcal{L} = -\frac{1}{2}\eta^{\mu\nu}\partial_\mu \phi \partial_\nu \phi - V(\phi)$, and $\phi_\alpha = \phi$, The energy momentum tensor is
+\begin{equation}
+    T^{\mu\nu} = \partial^\mu \phi \partial^\nu \phi - \eta^{\mu\nu}\left(\frac{1}{2}\eta^{\alpha\beta}\partial_\alpha \phi \partial_\beta \phi + V(\phi)\right)
+\end{equation}
+
+
+The time component is
+\begin{equation}
+    T^{00} = \frac{1}{2}\dot{\phi}^2 + \frac{1}{2}(\nabla\phi)^2 + V(\phi)
+\end{equation}
+
+And the space block is  
+\begin{equation}
+    T^{ij} = \partial^i \phi \partial^j \phi - \delta^{ij}\left(-\frac{1}{2}\dot{\phi}^2 + \frac{1}{2}(\nabla\phi)^2 + V(\phi)\right)
+\end{equation}
+
+the mixed component is
+\begin{equation}
+    T^{j0} = -\dot{\phi}\partial_j \phi
+\end{equation}
+
+
+Therefore,
+\begin{equation}
+    T^{\mu\nu} = \begin{pmatrix}
+        \frac{1}{2}\dot{\phi}^2 + \frac{1}{2}(\nabla\phi)^2 + V(\phi) & -(\dot{\phi}\nabla\phi)^\top \\
+        -(\dot{\phi}\nabla\phi) & \nabla\phi\nabla\phi^\top - \left(-\frac{1}{2}\dot{\phi}^2 + \frac{1}{2}(\nabla\phi)^2 + V(\phi)\right)I
+    \end{pmatrix}
+\end{equation}
+
+
+\subsection{(b)}
+
+For the source-free Maxwell's electromagnetism, the equation of motion is $\partial_\mu F^{\mu\nu} = 0$. Hence, the conservation law $\partial_\mu T^{\mu\nu} = 0$ is
+\begin{align}
+    \partial_\mu T^{\mu\nu} &= \partial_\mu F^{\mu\alpha}F^\nu{}_\alpha + F^{\mu\alpha}\partial_\mu F^\nu{}_\alpha - \frac{1}{4}\eta^{\mu\nu}\partial_\mu(F_{\alpha\beta}F^{\alpha\beta}) \\
+    &= F^{\mu\alpha}\partial_\mu F^\nu{}_\alpha - \frac{1}{4}\eta^{\mu\nu}\partial_\mu(F_{\alpha\beta}F^{\alpha\beta}) \\
+    &= F^{\mu\alpha}\partial_\mu F^\nu{}_\alpha - \frac{1}{2}\eta^{\mu\nu}F^{\alpha\beta}\partial_\mu F_{\alpha\beta} \\
+    &= F^{\mu\alpha}\partial_\mu F^\nu{}_\alpha + \frac{1}{2}\eta^{\mu\nu}F^{\alpha\beta}(\partial_\alpha F_{\beta\mu} + \partial_\beta F_{\mu\alpha}) \\
+    &= F^{\mu\alpha}\partial_\mu F^\nu{}_\alpha +\eta^{\mu\nu}F^{\alpha\beta}\partial_\alpha F_{\beta\mu} \\
+    &= F^{\mu\alpha}\partial_\mu F^\nu{}_\alpha -F^{\alpha\beta}\partial_\alpha F^{\nu}{}_{\beta} \\
+    &= 0
+\end{align}
+Where the Bianchi identity $\partial_\mu F_{\nu\alpha} + \partial_\nu F_{\alpha\mu} + \partial_\alpha F_{\mu\nu} = 0$ is used in the fourth line.
+
+As same as above, for the scalar field theory, the equation of motion is $\partial_\mu \partial^\mu \phi - V'(\phi) = 0$. Hence, the conservation law $\partial_\mu T^{\mu\nu} = 0$ is
+\begin{align}
+    \partial_\mu T^{\mu\nu} &= \partial_\mu \partial^\mu \phi \partial^\nu \phi + \partial^\mu \phi \partial_\mu \partial^\nu \phi - \eta^{\mu\nu}\left(\frac{1}{2}\partial_\mu(\partial^\alpha \phi \partial_\alpha \phi) + V'(\phi)\partial_\mu\phi\right)\\
+    &= \partial_\mu \partial^\mu \phi \partial^\nu \phi + \partial^\mu \phi \partial_\mu \partial^\nu \phi - \eta^{\mu\nu}\left(\partial^\alpha \phi \partial_\alpha \partial_\mu\phi + V'(\phi)\partial_\mu\phi\right)\\
+    &= (\partial_\mu \partial^\mu \phi - V'(\phi))\partial^\nu \phi + \partial^\mu \phi \partial_\mu \partial^\nu \phi - \eta^{\mu\nu}\partial^\alpha \phi \partial_\alpha \partial_\mu\phi\\
+    &= 0
+\end{align}
+
+
+\section{\#3}
+
+\subsection{(a)}
+
+Let $V$ be a $n$-dimensional vector space, and let $g$ be a metric on $V$ (i.e., a symmetric, non-degenerate, bilinear form).
+
+
+
+For $n=1$, non-degeneracy condition implies $g(e, e) \ne 0$ for any non-zero $e\in V$. Hence, we can choose a basis $\{e\}$ such that $g(e, e) = \pm1$ by picking a non-zero vector and normalizing it.
+
+
+Suppose that any $k$-dimensional vector space has a basis $\{e_1, \dots, e_k\}$ such that $g(e_i, e_j) = \pm\delta_{ij}$ for $i, j = 1, \dots, k$.
+
+For a $(k+1)$-dimensional vector space $V$, there exists a non-zero vector $e_{k+1}$ such that $g(e_{k+1}, e_{k+1}) \ne 0$. If not, then $g(v, v) = 0$ for all $v \in V$, and
+\begin{equation}
+    g(v, w) = \frac{1}{4}\left(g(v+w, v+w) - g(v-w, v-w)\right) = 0
+\end{equation}
+Which contradicts the non-degeneracy of $g$. Without loss of generality, we can assume that $g(e_{k+1}, e_{k+1}) =\pm1$. Then, consider following two subspaces of $V$:
+\begin{align}
+    W &= \{w \in V : g(e_{k+1}, w) = 0\}, \\
+    U &= \text{span}\{e_{k+1}\}
+\end{align}
+Then, clearly, $W\cap U = \{0\}$. Also, for any $v\in V$,
+\begin{equation}
+    v = \underbrace{v \mp g(e_{k+1}, v) e_{k+1}}_{\in W} \pm \underbrace{g(e_{k+1}, v) e_{k+1}}_{\in U}
+\end{equation}
+with same choice of sign as $g(e_{k+1}, e_{k+1}) = \pm1$. Hence, $V = W\oplus U$ and $\dim W = \dim V - 1=k$. Moreover, $g|_W$ is non-degenerate: if $w\in W$ satisfies $g(w,w')=0$ for all $w'\in W$, then since also $g(w,e_{k+1})=0$ and $V=W\oplus U$, we have $g(w,v)=0$ for all $v\in V$, hence $w=0$. Thus $g|_W$ is a metric on $W$, and by the induction hypothesis, take a basis $\{e_1, \dots, e_k\}$ of $W$ such that $g(e_i, e_j) = \pm\delta_{ij}$ for $i, j = 1, \dots, k$. By the definition of $W$, we have $g(e_i, e_{k+1}) = 0$ for $i = 1, \dots, k$. Hence, $\{e_1, \dots, e_k, e_{k+1}\}$ is a basis of $V$ such that $g(e_i, e_j) = \pm\delta_{ij}$ for $i, j = 1, \dots, k+1$.
+\subsection{(b)}
+
+Let $\{v_1, \dots, v_n\}$ and $\{w_1, \dots, w_n\}$ be two orthonormal bases of $(V, g)$. By permuting the order if necessary, we can assume that 
+\begin{equation}
+    g(v_i, v_i) = \begin{cases}
+        1 & i = 1, \dots, p \\
+        -1 & i = p+1, \dots, n
+    \end{cases}
+\end{equation}
+and
+\begin{equation}
+    g(w_i, w_i) = \begin{cases}
+        1 & i = 1, \dots, q \\
+        -1 & i = q+1, \dots, n
+    \end{cases}
+\end{equation}
+
+It is enough to show that $p = q$. 
+
+Define four subspaces of $V$ as
+\begin{align}
+    V_+ &= \text{span}\{v_1, \dots, v_p\}, & V_- &= \text{span}\{v_{p+1}, \dots, v_n\}, \\
+    W_+ &= \text{span}\{w_1, \dots, w_q\}, & W_- &= \text{span}\{w_{q+1}, \dots, w_n\}
+\end{align}
+
+Then, $g$ is positive definite on $V_+$ and $W_+$, and negative definite on $V_-$ and $W_-$. Then, $V_+\cap W_- = \{0\}$ because if $v\in V_+\cap W_-$ is a non-zero vector, then $g(v, v) > 0$ and $g(v, v) < 0$, which is a contradiction. In the same way, $V_-\cap W_+ = \{0\}$. Hence, by the dimension formula ($\dim (A+B) = \dim A + \dim B - \dim (A \cap B)$), 
+\begin{gather}
+    \dim(V_+ + W_-) = \dim V_+ + \dim W_- = p + (n-q) \le n \\
+    \dim(V_- + W_+) = \dim V_- + \dim W_+ = (n-p) + q \le n
+\end{gather}
+
+The two inequalities imply that $p \le q$ and $q \le p$. Hence, $p = q$.
+
+
+\section{\#4}
+
+\subsection{(a)}
+
+For a point $p$ in $\mathbb{R}^3$ not on the $z$-axis has two coordinate neighborhoods $(U, \id)$, $(U, (r, \theta, \phi))$ with transition map
+\begin{align}
+    x &= r \sin \theta \cos \phi \notag\\
+    y &= r \sin \theta \sin \phi \notag\\
+    z &= r \cos \theta
+\end{align}
+
+Their derivatives are
+\begin{align}
+    \frac{\partial x}{\partial r} &= \sin \theta \cos \phi, &
+    \frac{\partial x}{\partial \theta} &= r \cos \theta \cos \phi, &
+    \frac{\partial x}{\partial \phi} &= -r \sin \theta \sin \phi,\notag\\
+    \frac{\partial y}{\partial r} &= \sin \theta \sin \phi, &
+    \frac{\partial y}{\partial \theta} &= r \cos \theta \sin \phi,&
+    \frac{\partial y}{\partial \phi} &= r \sin \theta \cos \phi,\notag\\
+    \frac{\partial z}{\partial r} &= \cos\theta,&
+    \frac{\partial z}{\partial \theta} &= -r\sin\theta,&
+    \frac{\partial z}{\partial\phi} &= 0.
+\end{align}
+
+Then, the metric, as a $(0, 2)$-tensor, transforms as
+\begin{align}
+    ds^2 &= dx^2 + dy^2 + dz^2 \notag\\
+    &= \left(\frac{\partial x}{\partial r} dr + \frac{\partial x}{\partial \theta} d\theta + \frac{\partial x}{\partial \phi} d\phi\right)^2 + \left(\frac{\partial y}{\partial r} dr + \frac{\partial y}{\partial \theta} d\theta + \frac{\partial y}{\partial \phi} d\phi\right)^2 + \left(\frac{\partial z}{\partial r} dr + \frac{\partial z}{\partial \theta} d\theta + \frac{\partial z}{\partial \phi} d\phi\right)^2 \notag\\
+    &= dr^2 + r^2 d\theta^2 + r^2 \sin^2\theta d\phi^2
+\end{align}
+
+In details, each coefficients are calculated as follows:
+\begin{enumerate}
+    \item Coefficient of $dr^2$:
+    \begin{equation}
+        \left(\frac{\partial x}{\partial r}\right)^2 + \left(\frac{\partial y}{\partial r}\right)^2 + \left(\frac{\partial z}{\partial r}\right)^2 = (\sin^2\theta \cos^2\phi + \sin^2\theta \sin^2\phi + \cos^2\theta) = 1
+    \end{equation}
+    \item Coefficient of $d\theta^2$:
+    \begin{equation}
+        \left(\frac{\partial x}{\partial \theta}\right)^2 + \left(\frac{\partial y}{\partial \theta}\right)^2 + \left(\frac{\partial z}{\partial \theta}\right)^2 = (r^2\cos^2\theta\cos^2\phi + r^2\cos^2\theta\sin^2\phi + r^2\sin^2\theta) = r^2
+    \end{equation}
+    \item Coefficient of $d\phi^2$:
+    \begin{equation}
+        \left(\frac{\partial x}{\partial \phi}\right)^2 + \left(\frac{\partial y}{\partial \phi}\right)^2 + \left(\frac{\partial z}{\partial \phi}\right)^2 = (r^2\sin^2\theta\sin^2\phi + r^2\sin^2\theta\cos^2\phi) = r^2\sin^2\theta
+    \end{equation}
+    \item Coefficient of $dr d\theta$:
+    \begin{equation}
+        2\frac{\partial x}{\partial r}\frac{\partial x}{\partial \theta} + 2\frac{\partial y}{\partial r}\frac{\partial y}{\partial \theta} + 2\frac{\partial z}{\partial r}\frac{\partial z}{\partial \theta} = 2(r\sin\theta\cos\theta\cos^2\phi + r\sin\theta\cos\theta\sin^2\phi - r\sin\theta\cos\theta) = 0
+    \end{equation}
+    \item Coefficient of $dr d\phi$:
+    \begin{equation}
+        2\frac{\partial x}{\partial r}\frac{\partial x}{\partial \phi} + 2\frac{\partial y}{\partial r}\frac{\partial y}{\partial \phi} + 2\frac{\partial z}{\partial r}\frac{\partial z}{\partial \phi} = 2(-r\sin^2\theta\sin\phi\cos\phi + r\sin^2\theta\cos\phi\sin\phi) = 0
+    \end{equation}
+    \item Coefficient of $d\theta d\phi$:
+    \begin{equation}
+        2\frac{\partial x}{\partial \theta}\frac{\partial x}{\partial \phi} + 2\frac{\partial y}{\partial \theta}\frac{\partial y}{\partial \phi} + 2\frac{\partial z}{\partial \theta}\frac{\partial z}{\partial \phi} = 2(-r^2\cos\theta\sin\theta\cos\phi\sin\phi + r^2\cos\theta\sin\theta\sin\phi\cos\phi) = 0
+    \end{equation}
+\end{enumerate}
+
+
+\subsection{(b)}
+
+
+
+Consider the flat spacetime $\mathbb{R}^{1,3}$ with two chart $(\mathbb{R}^{1,3}, \id)$ and $(\mathbb{R}^{1,3}, \varphi)$ where $\varphi=(t', x', y', z')$ is rotating coordinate system defined by the transition map
+\begin{align}
+    t' &= t \notag\\
+    x' &= (x^2 + y^2)^{1/2}\cos(\phi - \omega t) \notag\\
+    y' &= (x^2 + y^2)^{1/2}\sin(\phi - \omega t) \notag\\
+    z' &= z
+\end{align}
+Where $\phi$ is the azimuthal angle in cylindrical coordinates. 
+
+Using $\cos\phi = x/(x^2+y^2)^{1/2}$ and $\sin\phi = y/(x^2+y^2)^{1/2}$, we can rewrite the transition map as
+\begin{align}
+    t' &= t \notag\\
+    x' &= x\cos(\omega t) + y\sin(\omega t) \notag\\
+    y' &= -x\sin(\omega t) + y\cos(\omega t) \notag\\
+    z' &= z
+\end{align}
+
+and the inverse is
+\begin{align}
+    t &= t' \notag\\
+    x &= x'\cos(\omega t') - y'\sin(\omega t') \notag\\
+    y &= x'\sin(\omega t') + y'\cos(\omega t') \notag\\
+    z &= z'
+\end{align}
+
+Their derivatives are
+\begin{align}
+    \frac{\partial t}{\partial t'} &= 1, &
+    \frac{\partial t}{\partial x'} &= 0, &
+    \frac{\partial t}{\partial y'} &= 0, &
+    \frac{\partial t}{\partial z'} &= 0,\notag\\
+    \frac{\partial x}{\partial t'} &= -\omega x'\sin(\omega t') - \omega y'\cos(\omega t'), &
+    \frac{\partial x}{\partial x'} &= \cos(\omega t'), &
+    \frac{\partial x}{\partial y'} &= -\sin(\omega t'), &
+    \frac{\partial x}{\partial z'} &= 0,\notag\\
+    \frac{\partial y}{\partial t'} &= \omega x'\cos(\omega t') - \omega y'\sin(\omega t'), &
+    \frac{\partial y}{\partial x'} &= \sin(\omega t'), &
+    \frac{\partial y}{\partial y'} &= \cos(\omega t'), &
+    \frac{\partial y}{\partial z'} &= 0,\notag\\
+    \frac{\partial z}{\partial t'} &= 0, &
+    \frac{\partial z}{\partial x'} &= 0, &
+    \frac{\partial z}{\partial y'} &= 0, &
+    \frac{\partial z}{\partial z'} &= 1.
+\end{align}
+
+
+Hence, the metric, transforms as
+\begin{align}
+    ds^2 &= -dt^2 + dx^2 + dy^2 + dz^2 \notag\\
+    &= -\left(\frac{\partial t}{\partial t'} dt' + \frac{\partial t}{\partial x'} dx' + \frac{\partial t}{\partial y'} dy' + \frac{\partial t}{\partial z'} dz'\right)^2 + \left(\frac{\partial x}{\partial t'} dt' + \frac{\partial x}{\partial x'} dx' + \frac{\partial x}{\partial y'} dy' + \frac{\partial x}{\partial z'} dz'\right)^2 \notag\\
+    &+ \left(\frac{\partial y}{\partial t'} dt' + \frac{\partial y}{\partial x'} dx' + \frac{\partial y}{\partial y'} dy' + \frac{\partial y}{\partial z'} dz'\right)^2 + \left(\frac{\partial z}{\partial t'} dt' + \frac{\partial z}{\partial x'} dx' + \frac{\partial z}{\partial y'} dy' + \frac{\partial z}{\partial z'} dz'\right)^2\notag\\
+    &= -\left(1 - \omega^2(x'^2 + y'^2)\right) dt'^2 + 2\omega(x'dy' - y'dx')dt' + dx'^2 + dy'^2 + dz'^2
+\end{align}
+
+And the coefficients are
+\begin{equation}
+    g_{\mu\nu} = \begin{pmatrix}
+        -\left(1 - \omega^2(x'^2 + y'^2)\right) & -\omega y' & \omega x' & 0 \\
+        -\omega y' & 1 & 0 & 0 \\
+        \omega x' & 0 & 1 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}
+\end{equation}
+
+For the inverse metric, we can use the formula for the inverse of a block matrix:
+\begin{equation}
+    \begin{pmatrix}
+        A & B \\
+        C & D
+    \end{pmatrix}^{-1} = \begin{pmatrix}
+        (A - BD^{-1}C)^{-1} & -(A - BD^{-1}C)^{-1}BD^{-1} \\
+        -D^{-1}C(A - BD^{-1}C)^{-1} & D^{-1} + D^{-1}C(A - BD^{-1}C)^{-1}BD^{-1}
+    \end{pmatrix}
+\end{equation}
+In our case, $D=D^{-1}=I$. Hence, we have
+\begin{equation}
+    g^{\mu\nu} = \begin{pmatrix}
+        -1 & -\omega y' & \omega x' & 0 \\
+        -\omega y' & 1 - \omega^2 y'^2 & \omega^2 x'y' & 0 \\
+        \omega x' & \omega^2 x'y' & 1 - \omega^2 x'^2 & 0 \\
+        0 & 0 & 0 & 1
+    \end{pmatrix}
+\end{equation}
+
+
+\end{document}

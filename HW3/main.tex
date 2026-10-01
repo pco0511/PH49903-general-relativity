@@ -1,0 +1,270 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath,amssymb,amsthm, tikz,titlesec,hyperref,esint,braket, graphicx, mathrsfs, enumitem}
+\usepackage[a4paper,margin=2cm]{geometry}
+\linespread{1.3}
+\newtheorem{claim}{Claim}[section]
+
+\newcommand\name{Park Chanwoo}   % Name of the student
+\newcommand\university{KAIST} % Name of the university
+\newcommand\department{Physics} % Name of the department
+\newcommand\studentid{20230297} % Student ID
+\newcommand\s{\,\;}
+
+
+\newenvironment{solution}[1]
+  {\renewcommand\qedsymbol{$\square$}\begin{proof}[\textbf{Solution#1}]}
+  {\end{proof}}
+\newenvironment{note}
+  {\renewcommand\qedsymbol{$\blacksquare$}\begin{proof}[\textnormal{\textbf{note}}]}
+  {\end{proof}}
+
+\title{KAIST\\2026 General Relativity\\
+Homework 3\bigskip}
+\author{\textbf{\Large \name} \\
+% University: \university\\
+Department: \department\\
+Student ID: \studentid}
+\date{\today}
+
+\begin{document}
+\thispagestyle{empty}
+\maketitle
+\tableofcontents
+\titleformat{\section}[frame]{\pagebreak}{\filright
+\footnotesize  \enspace \textsf{KAIST --- General Relativity 2026 Fall}\enspace}{6pt}{\Large\bfseries\filcenter}
+\setcounter{secnumdepth}{1}
+\setcounter{tocdepth}{2}
+
+\newcommand{\tr}{\operatorname{tr}}
+\newcommand{\sgn}{\operatorname{sgn}}
+\newcommand{\supp}{\operatorname{supp}}
+\newcommand{\id}{\operatorname{id}}
+\renewcommand{\Re}{\operatorname{Re}}
+\renewcommand{\Im}{\operatorname{Im}}
+\newcommand{\boltz}{k_{\mathrm{B}}}
+
+\section{\#1}
+
+For a general metric $g_{\mu\nu}$, the Levi-Civita connection is given by
+\begin{equation}
+    \Gamma^{\lambda}_{\mu\nu} = \frac{1}{2} g^{\lambda\sigma} (\partial_\mu g_{\sigma\nu} + \partial_\nu g_{\sigma\mu} - \partial_\sigma g_{\mu\nu})
+\end{equation}
+
+If the metric is diagonal, i.e. $g_{\mu\nu} = 0$ for $\mu \neq \nu$, the sum over $\sigma$ in the above expression reduces to:
+\begin{equation}
+    \Gamma^{\lambda}_{\mu\nu} = \frac{1}{2} g^{\lambda\lambda} (\partial_\mu g_{\lambda\nu} + \partial_\nu g_{\lambda\mu} - \partial_\lambda g_{\mu\nu})
+\end{equation}
+
+If $\lambda\ne\mu$, $\lambda\ne\nu$, and $\mu\ne\nu$, the Christoffel symbol vanishes. 
+\begin{equation}
+    \Gamma^{\lambda}_{\mu\nu} = 0
+\end{equation}
+
+If $\lambda \ne \mu=\nu$,
+\begin{equation}
+    \Gamma^{\lambda}_{\mu\mu} = -\frac{1}{2} g^{\lambda\lambda} \partial_\lambda g_{\mu\mu} = -\frac{1}{2} (g_{\lambda\lambda})^{-1} \partial_\lambda g_{\mu\mu}
+\end{equation}
+
+If $\lambda = \nu \ne \mu$,
+\begin{equation}
+    \Gamma^{\lambda}_{\mu\lambda} = \frac{1}{2} g^{\lambda\lambda} \partial_\mu g_{\lambda\lambda} = \frac{1}{2} (g_{\lambda\lambda})^{-1} \partial_\mu g_{\lambda\lambda} = \partial_\mu \ln \sqrt{|g_{\lambda\lambda}|}
+\end{equation}
+By the non-degeneracy of the metric, $\ln \sqrt{|g_{\lambda\lambda}|}$ is well-defined.
+
+The case $\lambda = \mu \ne \nu$ is not required since Levi-Civita connection is torsion-free, i.e. $\Gamma^{\lambda}_{\mu\nu} = \Gamma^{\lambda}_{\nu\mu}$.
+
+If $\lambda = \mu = \nu$,
+\begin{equation}
+    \Gamma^{\lambda}_{\lambda\lambda} = \frac{1}{2} g^{\lambda\lambda} \partial_\lambda g_{\lambda\lambda} = \frac{1}{2} (g_{\lambda\lambda})^{-1} \partial_\lambda g_{\lambda\lambda} = \partial_\lambda \ln \sqrt{|g_{\lambda\lambda}|}
+\end{equation}
+
+To summarize, the Levi-Civita connection for a diagonal metric is given by
+\begin{align}
+    \Gamma^{\lambda}_{\mu\nu} &= 0\notag\\
+    \Gamma^{\lambda}_{\mu\mu} &= -\frac{1}{2} (g_{\lambda\lambda})^{-1} \partial_\lambda g_{\mu\mu}, \quad (\lambda \ne \mu)\notag\\
+    \Gamma^{\lambda}_{\mu\lambda} &= \partial_\mu \ln \sqrt{|g_{\lambda\lambda}|}, \quad (\lambda \ne \mu)\notag\\
+    \Gamma^{\lambda}_{\lambda\lambda} &= \partial_\lambda \ln \sqrt{|g_{\lambda\lambda}|}\label{eqn:diag_met_chs}
+\end{align}
+for $\lambda\ne\mu$, $\lambda\ne\nu$, and $\mu\ne\nu$.
+
+
+
+\section{\#2}
+
+Since the given metric is diagonal, using above result, the Christoffel symbols of Levi-Civita connection are
+\begin{equation}
+    \Gamma^{\theta}_{\phi\phi} = -\sin\theta \cos\theta, \qquad \Gamma^{\phi}_{\theta\phi} = \Gamma^{\phi}_{\phi\theta} = \cot \theta
+\end{equation}
+and all other components vanish.
+
+
+Covariant derivative induced by the given connection is
+\begin{align}
+    \nabla_\theta\partial_\theta &= 0 & \nabla_\theta\partial_\phi &= (\cot\theta)\partial_\phi\notag\\
+    \nabla_\phi\partial_\theta &= (\cot\theta)\partial_\phi & \nabla_\phi\partial_\phi &= -\sin\theta\cos\theta\partial_\theta\label{eqn:cov_der_2}
+\end{align}
+
+
+\subsection{(a)}
+
+Hence, the velocity vectorfield of meridian $\partial_\theta$ is parallel along itself while the velocity vectorfield of parallel $\partial_\phi$ is not parallel along itself except $\theta = \frac{\pi}{2}$. Therefore, every meridian is a geodesic while the only parallel which is a geodesic is the equator $\theta = \frac{\pi}{2}$.
+
+\subsection{(b)}
+
+Consider a vectorfield $X(\phi) = a(\phi)\partial_\theta + b(\phi)\partial_\phi$ along parallel $\theta = \theta_0$. The condition $\nabla_\phi X=0$ gives
+\begin{align}
+    \nabla_\phi X &= \nabla_\phi (a(\phi)\partial_\theta + b(\phi)\partial_\phi)\notag\\
+    &= a'(\phi)\partial_\theta + b'(\phi)\partial_\phi + a(\phi)\nabla_\phi\partial_\theta + b(\phi)\nabla_\phi\partial_\phi\notag\\
+    &= a'(\phi)\partial_\theta + b'(\phi)\partial_\phi + a(\phi)(\cot\theta_0)\partial_\phi + b(\phi)(-\sin\theta_0\cos\theta_0)\partial_\theta\notag\\
+    &= (a'(\phi) - b(\phi)\sin\theta_0\cos\theta_0)\partial_\theta + (b'(\phi) + a(\phi)\cot\theta_0)\partial_\phi =0
+\end{align}
+
+The coordinate expression is
+\begin{equation}
+    \begin{pmatrix}
+        a'(\phi)\\
+        b'(\phi)
+    \end{pmatrix}
+    = \begin{pmatrix}
+        0 & \sin\theta_0\cos\theta_0\\
+        -\cot\theta_0 & 0
+    \end{pmatrix}
+    \begin{pmatrix}
+        a(\phi)\\
+        b(\phi)
+    \end{pmatrix}
+\end{equation}
+
+Hence, the matrix representation of the parallel transport along the parallel $\theta = \theta_0$ is
+\begin{equation}
+    P_{\theta_0}(\phi) = \exp\left(\begin{pmatrix}
+        0 & \sin\theta_0\cos\theta_0\\
+        -\cot\theta_0 & 0
+    \end{pmatrix}\phi\right)
+    = \begin{pmatrix}
+        \cos(\phi\cos\theta_0) & \sin\theta_0\,\sin(\phi\cos\theta_0)\\
+        -\dfrac{\sin(\phi\cos\theta_0)}{\sin\theta_0} & \cos(\phi\cos\theta_0)
+    \end{pmatrix}
+\end{equation}
+
+Since we are interested in the parallel transport along the closed curve $\phi\in[0,2\pi]$, we have
+\begin{equation}
+    P_{\theta_0}(2\pi) = \begin{pmatrix}
+        \cos(2\pi\cos\theta_0) & \sin\theta_0\,\sin(2\pi\cos\theta_0)\\
+        -\dfrac{\sin(2\pi\cos\theta_0)}{\sin\theta_0} & \cos(2\pi\cos\theta_0)
+    \end{pmatrix}
+\end{equation}
+and the resulting vector after the parallel transport when $X(0)=(1, 0)$ is 
+\begin{equation}
+    X(2\pi) = P_{\theta_0}(2\pi)X(0) = \begin{pmatrix}
+        \cos(2\pi\cos\theta_0)\\
+        -\dfrac{\sin(2\pi\cos\theta_0)}{\sin\theta_0}
+    \end{pmatrix}
+\end{equation}
+
+
+\section{\#3}
+
+
+\subsection{(a)}
+
+Let $(\mathcal{M}, g)$ be a pseudo-Riemannian manifold and $\nabla_\mu$ be the Levi-Civita connection. Let $\gamma:[0, 1]\to\mathcal{M}$ be a smooth regular curve and $T=\partial_\lambda$ be the tangent vectorfield along $\gamma$. The regularity condition ($T\ne 0$) is necessary to exclude the typical L-shaped counterexample. 
+
+Assume there exists a function $\alpha$ along $\gamma$ such that $T^a\nabla_a T^b = \alpha T^b$. Since $T$ is non-vanishing, at least one component of $T$ is non-zero, $T^\mu\ne 0$. Then,
+\begin{equation}
+    \alpha = \frac{T^a\nabla_a T^\mu}{T^\mu} 
+\end{equation}
+
+Since the right-hand side is a smooth function along $\gamma$, $\alpha$ is also a smooth function along $\gamma$.
+
+Consider a reparametrization $\gamma(t)=\gamma(s(t))$. Then, the tangent vectorfield along $\gamma(s)$ is given by
+\begin{equation}
+    \widetilde{T} = \frac{d\gamma}{ds} = \frac{d\gamma}{dt}\frac{dt}{ds} = \frac{dt}{ds} T
+\end{equation}
+
+Then, the covariant derivative of $\widetilde{T}$ along $\gamma$ is
+\begin{align}
+    \widetilde{T}^a\nabla_a \widetilde{T}^b &= \left(\frac{dt}{ds}\right)^2 T^a\nabla_a T^b + \frac{d}{ds} \left(\frac{dt}{ds}\right) T^b \notag\\
+    &= \left(\frac{dt}{ds}\right)^2 (\alpha T^b) + \frac{d^2t}{ds^2}T^b\notag\\
+    &= \left(\alpha\left(\frac{dt}{ds}\right)^2 + \frac{d^2 t}{ds^2}\right) T^b
+\end{align}
+
+The condition that the right hand side vanishes is equivalent to
+\begin{align}
+    \frac{d^2 t}{ds^2} + \alpha\left(\frac{dt}{ds}\right)^2 = 0
+    &\iff -\left(\frac{ds}{dt}\right)^{-3}\frac{d^2 s}{dt^2} + \alpha\left(\frac{ds}{dt}\right)^{-2} = 0\\
+    &\iff \frac{d^2 s}{dt^2} = \alpha \frac{ds}{dt}
+\end{align}
+
+
+Hence, the reparametrization given by 
+\begin{equation}
+    s(t) = \int_0^t \exp\left(\int_0^\tau \,\alpha(\sigma)\,d\sigma\right)\, d\tau
+\end{equation}
+gives the equation (3.3.1), i.e. $\widetilde{T}^a\nabla_a \widetilde{T}^b = 0$. The reparametrization is well-defined since $\alpha$ is smooth along $\gamma$ and the integrand is positive, $s(t)$ is strictly increasing and smooth.
+
+
+
+
+\subsection{(b)}
+
+Let $t$ and $s$ be two affine parameters of a geodesic $\gamma$, i.e. $T^a\nabla_a T^b = 0$ and $\widetilde{T}^a\nabla_a \widetilde{T}^b = 0$ for $T = \partial_t$ and $\widetilde{T} = \partial_s$. As same as above, the covariant derivative of $T$ along itself is
+\begin{equation}
+    T^a\nabla_a T^b = \left(\frac{ds}{dt}\right)^2 \widetilde{T}^a\nabla_a \widetilde{T}^b + \frac{d^2 s}{dt^2} \widetilde{T}^b = \frac{d^2 s}{dt^2} \widetilde{T}^b
+\end{equation}
+
+Hence, $d^2 s/dt^2 = 0$ which implies $s(t) = a t + b$ for some constants $a$ and $b$.
+
+
+\section{\#4}
+
+
+Since the given metric is diagonal, using above result (\ref{eqn:diag_met_chs}), the Christoffel symbols of Levi-Civita connection are
+\begin{align}
+    \Gamma^{r}_{\theta\theta} &= -r & \Gamma^{r}_{\phi\phi} &= -r\sin^2\theta & \Gamma^{\theta}_{\phi\phi} &= -\cos\theta\sin\theta\notag\\
+    \Gamma^{\theta}_{r\theta} = \Gamma^{\theta}_{\theta r} &= \frac{1}{r} & \Gamma^{\phi}_{r\phi} = \Gamma^{\phi}_{\phi r} &= \frac{1}{r} & \Gamma^{\phi}_{\theta\phi} = \Gamma^{\phi}_{\phi\theta} &= \cot\theta
+\end{align}
+other all components vanish.
+
+And the geodesic equation is 
+\begin{align}
+    \ddot{r} - r\dot{\theta}^2 - r\sin^2\theta \dot{\phi}^2 &= 0\notag\\
+    \ddot{\theta} + \frac{2}{r}\dot{r}\dot{\theta} - \cos\theta\sin\theta \dot{\phi}^2 &= 0\notag\\
+    \ddot{\phi} + \frac{2}{r}\dot{r}\dot{\phi} + 2\cot\theta \dot{\theta}\dot{\phi} &= 0 \label{eqn:geodesic_eqn}
+\end{align}
+
+
+It is enough to show that this equation of geodesic garuantees that the velocity is constant along the geodesic. The velocity is given by
+\begin{align}
+    v_x &= \frac{d}{dt}(r\sin\theta\cos\phi) = \dot{r}\sin\theta\cos\phi + r\cos\theta\cos\phi \dot{\theta} - r\sin\theta\sin\phi \dot{\phi}\notag\\
+    v_y &= \frac{d}{dt}(r\sin\theta\sin\phi) = \dot{r}\sin\theta\sin\phi + r\cos\theta\sin\phi \dot{\theta} + r\sin\theta\cos\phi \dot{\phi}\notag\\
+    v_z &= \frac{d}{dt}(r\cos\theta) = \dot{r}\cos\theta - r \sin\theta \dot{\theta}
+\end{align}
+
+and the acceleration is
+\begin{align}
+    a_x &= \ddot{r}\sin\theta\cos\phi + 2\dot{r}\cos\theta\cos\phi \dot{\theta} - 2 \dot{r}\sin\theta\sin\phi \dot{\phi} - r\sin\theta\cos\phi \dot{\theta}^2 - 2 r\cos\theta\sin\phi \dot{\theta}\dot{\phi} \\
+    &+ r\cos\theta\cos\phi \ddot{\theta} -r\sin\theta\cos\phi \dot{\phi}^2 -r\sin\theta\sin\phi \ddot{\phi}\notag\\
+    a_y &= \ddot{r}\sin\theta\sin\phi + 2\dot{r}\cos\theta\sin\phi \dot{\theta} + 2 \dot{r}\sin\theta\cos\phi \dot{\phi} - r\sin\theta\sin\phi \dot{\theta}^2 + 2 r\cos\theta\cos\phi \dot{\theta}\dot{\phi} \\
+    &+ r\cos\theta\sin\phi \ddot{\theta} -r\sin\theta\sin\phi \dot{\phi}^2 + r\sin\theta\cos\phi \ddot{\phi}\notag\\
+    a_z &= \ddot{r}\cos\theta - 2\dot{r}\sin\theta \dot{\theta} - r\cos\theta \dot{\theta}^2 - r\sin\theta \ddot{\theta}
+\end{align}
+
+The equation of geodesic (\ref{eqn:geodesic_eqn}) implies that $a_x = a_y = a_z = 0$, which means that the velocity is constant along the geodesic.
+
+Hence, the solution is straight line in $\mathbb{R}^3$. 
+
+The detailed calculation of $a_x, a_y, a_z$ is
+\begin{align}
+    a_x &= \sin\theta\cos\phi(\ddot{r} - r\dot{\theta}^2 - r\sin^2\theta \dot{\phi}^2) + \\
+    & + r\cos\theta\cos\phi(\ddot{\theta}+\frac{2}{r}\dot{r}\dot{\theta}-\cos\theta\sin\theta \dot{\phi}^2) \\
+    & - r\sin\theta\sin\phi(\ddot{\phi} + \frac{2}{r}\dot{r}\dot{\phi} + 2\cot\theta \dot{\theta}\dot{\phi}) = 0\\
+    a_y &= \sin\theta\sin\phi(\ddot{r} - r\dot{\theta}^2 - r\sin^2\theta \dot{\phi}^2) + \\
+    & + r\cos\theta\sin\phi(\ddot{\theta}+\frac{2}{r}\dot{r}\dot{\theta}-\cos\theta\sin\theta \dot{\phi}^2) \\
+    & + r\sin\theta\cos\phi(\ddot{\phi} + \frac{2}{r}\dot{r}\dot{\phi} + 2\cot\theta \dot{\theta}\dot{\phi}) = 0\\
+    a_z &= \cos\theta(\ddot{r} - r\dot{\theta}^2 - r\sin^2\theta \dot{\phi}^2) - r\sin\theta(\ddot{\theta}+\frac{2}{r}\dot{r}\dot{\theta}-\cos\theta\sin\theta \dot{\phi}^2) = 0
+\end{align}
+
+
+
+\end{document}

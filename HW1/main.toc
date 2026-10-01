@@ -1,0 +1,9 @@
+\contentsline {section}{\numberline {1}\#1}{2}{section.1}%
+\contentsline {section}{\numberline {2}\#2}{4}{section.2}%
+\contentsline {section}{\numberline {3}\#3}{5}{section.3}%
+\contentsline {subsection}{Linearity}{5}{subsection*.1}%
+\contentsline {subsection}{Leibniz Rule}{5}{subsection*.2}%
+\contentsline {subsection}{Coordinate Expression}{5}{subsection*.3}%
+\contentsline {section}{\numberline {4}\#4}{6}{section.4}%
+\contentsline {subsection}{(a)}{6}{subsection*.4}%
+\contentsline {subsection}{(b)}{6}{subsection*.5}%
